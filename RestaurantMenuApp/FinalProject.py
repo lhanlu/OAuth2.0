@@ -217,7 +217,7 @@ def restaurantMenu(restaurant_id):
     if items is None:
         return "You currently have no menu items"
     else:
-        return render_template('menu.html', restaurant=restaurant, items=items)
+        return render_template('menu.html', restaurant=restaurant, items=items, creator = creator)
 
 @app.route('/restaurant/new', methods=['GET','POST'])
 def newRestaurant():
