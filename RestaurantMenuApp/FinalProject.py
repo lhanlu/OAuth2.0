@@ -225,7 +225,7 @@ def newRestaurant():
     if 'username' not in login_session:
         return redirect('/login')
     if request.method == 'POST':
-        newRestaurant = Restaurant(id = request.form['id'],name = request.form['name'],user_id=login_session['user_id'])
+        newRestaurant = Restaurant(name = request.form['name'],user_id=login_session['user_id'])
         session.add(newRestaurant)
         session.commit()
         flash('New restaurant %s created!' % newRestaurant.name)
@@ -241,7 +241,7 @@ def newMenuItem(restaurant_id):
         return redirect('/login')
     if request.method == 'POST':
         restaurant = session.query(Restaurant).filter_by(id = restaurant_id).one()
-        newItem = MenuItem(name = request.form['name'],id = request.form['id'],course = request.form['course'],description = request.form['description'],price = request.form['price'],restaurant_id = restaurant_id, user_id = restaurant.user_id)
+        newItem = MenuItem(name = request.form['name'], course = request.form['course'],description = request.form['description'],price = request.form['price'],restaurant_id = restaurant_id, user_id = restaurant.user_id)
         session.add(newItem)
         session.commit()
         flash("New menu item created!")
