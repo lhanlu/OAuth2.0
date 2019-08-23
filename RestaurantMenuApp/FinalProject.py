@@ -210,6 +210,14 @@ def restaurants():
 
 @app.route('/restaurants/<int:restaurant_id>/menu')
 def restaurantMenu(restaurant_id):
+    """
+   This is a function to add new menu item
+    Args:
+        restaurant_id (data type: Integer): 
+                    the restaurant id that menu belongs to 
+    Returns:
+     restaurant menu page
+    """
     session = DBSession()
     restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
     creator = getUserInfo(restaurant.user_id)
@@ -221,6 +229,13 @@ def restaurantMenu(restaurant_id):
 
 @app.route('/restaurant/new', methods=['GET','POST'])
 def newRestaurant():
+    """
+   This is a function to add new menu item
+    Returns:
+        if the restaurant is created successfully, 
+            return to restaurant page and show message:New restqurant created!
+        else return to restaurant page and show no message.
+    """
     session = DBSession()
     if 'username' not in login_session:
         return redirect('/login')
@@ -236,12 +251,27 @@ def newRestaurant():
 
 @app.route('/restaurant/<int:restaurant_id>/menu/new/', methods=['GET','POST'])
 def newMenuItem(restaurant_id):
+    """
+   This is a function to add new menu item
+    Args:
+        restaurant_id (data type: Integer): 
+                    the restaurant id that menu belongs to 
+    Returns:
+        if the menu item is created successfully, 
+            return to restaurant menu page and show message:New menu item created!
+        else return to restaurant menu page and show no message.
+    """
     session = DBSession()
     if 'username' not in login_session:
         return redirect('/login')
     if request.method == 'POST':
         restaurant = session.query(Restaurant).filter_by(id = restaurant_id).one()
-        newItem = MenuItem(name = request.form['name'], course = request.form['course'],description = request.form['description'],price = request.form['price'],restaurant_id = restaurant_id, user_id = restaurant.user_id)
+        newItem = MenuItem(name = request.form['name'], 
+                            course = request.form['course'],
+                            description = request.form['description'],
+                            price = request.form['price'],
+                            restaurant_id = restaurant_id, 
+                            user_id = restaurant.user_id)
         session.add(newItem)
         session.commit()
         flash("New menu item created!")
@@ -253,6 +283,16 @@ def newMenuItem(restaurant_id):
 
 @app.route('/restaurant/<int:restaurant_id>/edit/', methods=['GET','POST'])
 def editRestaurant(restaurant_id):
+    """
+   This is a function to add new menu item
+    Args:
+        restaurant_id (data type: Integer): 
+                    the restaurant id 
+    Returns:
+        if the restaurant infomation is edited successfully, 
+            return to restaurant page and show message: Restaurant was edited!
+        else return to restaurant page and show no message.
+    """
     session = DBSession()
     if 'username' not in login_session:
         return redirect('/login')
@@ -269,6 +309,18 @@ def editRestaurant(restaurant_id):
 
 @app.route('/restaurant/<int:restaurant_id>/<int:menu_id>/edit/', methods=['GET','POST'])
 def editMenuItem(restaurant_id, menu_id):
+    """
+   This is a function to add new menu item
+    Args:
+        restaurant_id (data type: Integer): 
+                    the restaurant id that menu belongs to 
+        menu-id(data type: Integer):
+                    the menu id
+    Returns:
+        if the menu item is edited successfully, 
+            return to restaurant menu page and show message:menu item was edited!
+        else return to restaurant menu page and show no message.
+    """
     session = DBSession()
     if 'username' not in login_session:
         return redirect('/login')
@@ -287,11 +339,23 @@ def editMenuItem(restaurant_id, menu_id):
         flash("Menu item was edited!")
         return redirect(url_for('restaurantMenu', restaurant_id=restaurant_id))
     else:
-        return render_template('editmenuitem.html', restaurant_id=restaurant_id, menu_id=menu_id, item=editedItem)
+        return render_template('editmenuitem.html', 
+                                restaurant_id=restaurant_id, 
+                                menu_id=menu_id, item=editedItem)
 
 
 @app.route('/restaurant/<int:restaurant_id>/delete/', methods=['GET','POST'])
 def deleteRestaurant(restaurant_id):
+    """
+   This is a function to add new menu item
+    Args:
+        restaurant_id (data type: Integer): 
+                    the restaurant id
+    Returns:
+        if the restaurant is deleted successfully, 
+            return to restaurant page and show message:Restaurant was deleted!
+        else return to restaurant page and show no message.
+    """
     session = DBSession()
     if 'username' not in login_session:
         return redirect('/login')
@@ -306,6 +370,18 @@ def deleteRestaurant(restaurant_id):
 
 @app.route('/restaurant/<int:restaurant_id>/<int:menu_id>/delete/', methods=['GET','POST'])
 def deleteMenuItem(restaurant_id, menu_id):
+    """
+   This is a function to add new menu item
+    Args:
+        restaurant_id (data type: Integer): 
+                    the restaurant id that menu belongs to
+        menu_id(data type: Integer):
+                    the menu id 
+    Returns:
+        if the menu item is deleted successfully, 
+            return to restaurant menu page and show message:menu item was deleted!
+        else return to restaurant menu page and show no message.
+    """
     session = DBSession()
     if 'username' not in login_session:
         return redirect('/login')
