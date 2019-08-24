@@ -1,5 +1,5 @@
-from flask import Flask, render_template, request,
-                 redirect, url_for, flash, jsonify
+from flask import Flask, render_template, request
+from flask import redirect, url_for, flash, jsonify
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Restaurant, MenuItem, User
@@ -155,8 +155,8 @@ def gdisconnect():
     print ('In gdisconnect access token is %s', access_token)
     print ('User name is: ')
     print (login_session['username'])
-    url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' 
-            % login_session['access_token']
+    url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' \
+                % login_session['access_token']
     h = httplib2.Http()
     result = h.request(url, 'GET')[0]
     print ('result is ')
@@ -275,13 +275,12 @@ def newMenuItem(restaurant_id):
     if 'username' not in login_session:
         return redirect('/login')
     if request.method == 'POST':
-        restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
         newItem = MenuItem(name=request.form['name'], 
                             course=request.form['course'], 
                             description=request.form['description'], 
                             price=request.form['price'], 
                             restaurant_id=restaurant_id, 
-                            user_id=restaurant.user_id)
+                            user_id=login_session['user_id'])
         session.add(newItem)
         session.commit()
         flash("New menu item created!")
