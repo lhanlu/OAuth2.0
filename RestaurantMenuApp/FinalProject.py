@@ -23,7 +23,7 @@ from flask import make_response
 import requests
 
 CLIENT_ID = \
-"655321701917-tpaikvr7vem63nmmegln91i66cm9r9ip.apps.googleusercontent.com"
+json.loads(open('client_secrets.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "Restaurant Menu App"
 
 app = Flask(__name__)
@@ -128,9 +128,12 @@ def gconnect():
 
     data = answer.json()
 
-    login_session['username'] = data['name']
-    login_session['picture'] = data['picture']
-    login_session['email'] = data['email']
+    if 'name' in data:
+        login_session['username'] = data['name']
+    else:
+        login_session['username'] = data['email']
+        login_session['picture'] = data['picture']
+        login_session['email'] = data['email']
 
     user_id = getUserID(login_session['email'])
     if not user_id:
