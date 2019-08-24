@@ -5,8 +5,11 @@
     </head>
 
 <body>
+{% if 'username' not in session %}
 	<a href='{{url_for('showLogin')}}'>Login</a>
+{% else %}
 	<a href='{{url_for('gdisconnect')}}'>Logout</a>
+{% endif %}
 <div class = 'pane'>
     <div class = 'header'>
     <h1>{{  restaurant.name  }}</h1>
