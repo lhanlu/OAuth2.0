@@ -15,8 +15,8 @@ import json
 from flask import make_response
 import requests
 
-CLIENT_ID = """655321701917-tpaikvr7vem63nmmegln
-91i66cm9r9ip.apps.googleusercontent.com"""
+CLIENT_ID = \
+"655321701917-tpaikvr7vem63nmmegln91i66cm9r9ip.apps.googleusercontent.com"
 APPLICATION_NAME = "Restaurant Menu App"
 
 app = Flask(__name__)
@@ -50,7 +50,7 @@ def getUserID(email):
         user = session.query(User).filter_by(email=email).one()
         return user.id
     except:
-        return False
+        return None
 
 
 @app.route('/gconnect', methods=['POST'])
